@@ -107,12 +107,12 @@ namespace BookStore.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> RetrieveOrderDetails(string? UserName = "", string? OrderTrackId = "")
+        public async Task<IActionResult> RetrieveOrderDetails(string? UserName = "", int? ProductId = 0, string? OrderTrackId = "")
         {
             try
             {
 
-                List<Orders> getOrderDetails = await _ordersService.get_order_details(UserName, OrderTrackId);
+                List<Orders> getOrderDetails = await _ordersService.get_order_details(UserName, Convert.ToInt32(ProductId), OrderTrackId);
                 if (getOrderDetails.Count == 0)
                 {
                     responseobj.message = "Orders not found";

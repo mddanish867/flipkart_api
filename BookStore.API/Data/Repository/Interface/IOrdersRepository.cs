@@ -17,7 +17,7 @@ namespace BookStore.API.Data.Repository.Interface
         ///<summary>
         ///method to get order details 
         /// </summary>
-        Task<List<Orders>> get_order_details(string UserName, string OrderTrackId);
+        Task<List<Orders>> get_order_details(string UserName, int ProductId, string OrderTrackId);
 
 
         ///<summary>

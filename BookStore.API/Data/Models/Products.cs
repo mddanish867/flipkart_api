@@ -8,6 +8,8 @@ namespace BookStore.API.Data.Models
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
         public decimal ProductPrice { get; set; }
+        public int MinPrice { get; set; }
+        public int MaxPrice { get; set; }
         public decimal ProductDiscount { get; set; }
         public int ProductQuanitity { get; set; }
         public DateTime AddedOn { get; set; }

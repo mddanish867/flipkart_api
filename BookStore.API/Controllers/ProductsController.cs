@@ -243,5 +243,264 @@ namespace BookStore.API.Controllers
             }
         }
 
+        ///<summary
+        ///method to get wish list details 
+        ///</summary>
+        //[HttpGet, Authorize]
+        [HttpGet]
+        [Route("[action]/filters")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CustomError))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> FilterProducts(int? MinPrice = 0 , int? MaxPrice = 0, string? Brands = "", int? Discount = 0, string? Size = "", string? Color = "", string? Sleeves = "")
+        {
+            try
+            {
+
+                List<Products> filterProducts = await _productsServices.filter_products(Convert.ToInt32(MinPrice),Convert.ToInt32(MaxPrice),Brands,Convert.ToInt32(Discount), Size, Color, Sleeves);
+                if (filterProducts.Count == 0)
+                {
+                    responseobj.message = "No products found based on given filtered criteria!";
+                    return NotFound(responseobj);
+                }
+                else
+                {
+                    var filterProductsobj = filterProducts[0];
+                    if (!string.IsNullOrEmpty(filterProductsobj.errormessage))
+                    {
+                        responseobj.message = filterProductsobj.errormessage;
+                        return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+                    }
+                    else
+                    {
+                        dict.Add(responsename.result, filterProducts);
+                        return Ok(dict);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseobj.message = ex.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+            }
+        }
+
+        ///<summary>
+        ///method to rating of the products 
+        /// </summary> 
+        [HttpGet]
+        [Route("[action]/product-id/{ProductId}/rating-reviews")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CustomError))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ProductRatings(int ProductId)
+        {
+            try
+            {
+
+                List<RatingReview> productratings = await _productsServices.product_ratings(Convert.ToInt32(ProductId));
+                if (productratings.Count == 0)
+                {
+                    responseobj.message = "No products found from ratings!";
+                    return NotFound(responseobj);
+                }
+                else
+                {
+                    var productratingsobj = productratings[0];
+                    if (!string.IsNullOrEmpty(productratingsobj.errormessage))
+                    {
+                        responseobj.message = productratingsobj.errormessage;
+                        return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+                    }
+                    else
+                    {
+                        dict.Add(responsename.result, productratings);
+                        return Ok(dict);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseobj.message = ex.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+            }
+        }
+
+        ///<summary>
+        ///method to retrieve rating details
+        /// </summary> 
+        [HttpGet]
+        [Route("[action]/product-id/{ProductId}/rating-reviews-details")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CustomError))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ProductRatingDetails(int ProductId)
+        {
+            try
+            {
+
+                List<RatingReview> productratings = await _productsServices.product_ratings_details(Convert.ToInt32(ProductId));
+                if (productratings.Count == 0)
+                {
+                    responseobj.message = "No ratings found!";
+                    return NotFound(responseobj);
+                }
+                else
+                {
+                    var productratingsobj = productratings[0];
+                    if (!string.IsNullOrEmpty(productratingsobj.errormessage))
+                    {
+                        responseobj.message = productratingsobj.errormessage;
+                        return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+                    }
+                    else
+                    {
+                        dict.Add(responsename.result, productratings);
+                        return Ok(dict);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseobj.message = ex.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+            }
+        }
+
+        ///<summary>
+        ///method to rating of the products 
+        /// </summary> 
+        [HttpGet]
+        [Route("[action]/productId/{ProductId}/rating-reviews")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CustomError))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PurchasedProductRatings(int ProductId)
+        {
+            try
+            {
+
+                List<RatingReview> productratings = await _productsServices.purchased_product_ratings(Convert.ToInt32(ProductId));
+                if (productratings.Count == 0)
+                {
+                    responseobj.message = "No products found from order to rate!";
+                    return NotFound(responseobj);
+                }
+                else
+                {
+                    var productratingsobj = productratings[0];
+                    if (!string.IsNullOrEmpty(productratingsobj.errormessage))
+                    {
+                        responseobj.message = productratingsobj.errormessage;
+                        return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+                    }
+                    else
+                    {
+                        dict.Add(responsename.result, productratings);
+                        return Ok(dict);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseobj.message = ex.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+            }
+        }
+
+        ///<summary>
+        ///method to retrieve rating details
+        /// </summary> 
+        [HttpGet]
+        [Route("[action]/product-id/{ProductId}/rating-reviews-details")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CustomError))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ProductRatingFilter(int ProductId, string? Rating = "", string? Recent = "")
+        {
+            try
+            {
+
+                List<RatingReview> productratings = await _productsServices.product_ratings_filter(Convert.ToInt32(ProductId), Rating, Recent);
+                if (productratings.Count == 0)
+                {
+                    responseobj.message = "No ratings found!";
+                    return NotFound(responseobj);
+                }
+                else
+                {
+                    var productratingsobj = productratings[0];
+                    if (!string.IsNullOrEmpty(productratingsobj.errormessage))
+                    {
+                        responseobj.message = productratingsobj.errormessage;
+                        return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+                    }
+                    else
+                    {
+                        dict.Add(responsename.result, productratings);
+                        return Ok(dict);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseobj.message = ex.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+            }
+        }
+
+
+        ///<summary>
+        ///method to retrieve product questionair details
+        /// </summary> 
+        [HttpGet]
+        [Route("[action]/product-id/{ProductId}/product-questionair-details")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CustomError))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ProductQuestionair(int ProductId, string? search = "")
+        {
+            try
+            {
+
+                List<Questionair> productQuestionair = await _productsServices.product_questionair_details(Convert.ToInt32(ProductId),search);
+                if (productQuestionair.Count == 0)
+                {
+                    responseobj.message = "No ratings found!";
+                    return NotFound(responseobj);
+                }
+                else
+                {
+                    var productratingsobj = productQuestionair[0];
+                    if (!string.IsNullOrEmpty(productratingsobj.errormessage))
+                    {
+                        responseobj.message = productratingsobj.errormessage;
+                        return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+                    }
+                    else
+                    {
+                        dict.Add(responsename.result, productQuestionair);
+                        return Ok(dict);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseobj.message = ex.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, responseobj);
+            }
+        }
     }
 }

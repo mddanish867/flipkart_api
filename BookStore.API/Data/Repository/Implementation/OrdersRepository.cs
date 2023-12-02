@@ -134,14 +134,14 @@ namespace BookStore.API.Data.Repository.Implementation
         ///<summary>
         ///method to get order details 
         /// </summary>
-        public async Task<List<Orders>> get_order_details(string UserName, string OrderTrackId)
+        public async Task<List<Orders>> get_order_details(string UserName, int ProductId, string OrderTrackId)
         {
             List<Orders> getorderdetails = new List<Orders>();
             Orders obj;
             try
             {
                 string MstrSQL = string.Empty;
-                MstrSQL = " select * from Orders where username ='" + UserName + "' or OrderTrackId = '"+ OrderTrackId + "' ";
+                MstrSQL = " select * from Orders where username ='" + UserName + "' or ProductId = '"+ ProductId + "' or OrderTrackId = '" + OrderTrackId + "' ";
                 using (SqlConnection connection = new SqlConnection(DBconstring))
                 {
                     SqlCommand cmd = new SqlCommand(MstrSQL, connection);

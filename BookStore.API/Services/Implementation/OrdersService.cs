@@ -37,9 +37,9 @@ namespace BookStore.API.Services.Implementation
         ///<summary>
         ///method to get order details 
         /// </summary>
-        public async Task<List<Orders>> get_order_details(string UserName, string OrderTrackId)
+        public async Task<List<Orders>> get_order_details(string UserName, int ProductId, string OrderTrackId)
         {
-            List<Orders> getOrderDetails = await _ordersRepository.get_order_details(UserName, OrderTrackId);
+            List<Orders> getOrderDetails = await _ordersRepository.get_order_details(UserName, ProductId,OrderTrackId);
             return getOrderDetails;
         }
 
